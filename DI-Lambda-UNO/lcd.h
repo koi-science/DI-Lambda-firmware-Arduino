@@ -74,7 +74,9 @@ void display_wl(uint16_t wl) {
   static char last_value[16] = {0, };
   int16_t x, y, w, h;
   if (wl) {
-    snprintf(txt_buffer, sizeof(txt_buffer), "%dnm", wl);
+    dtostrf(wl, 4, 0, txt_buffer);
+    strcpy(txt_buffer + strlen(txt_buffer), "nm");
+    //snprintf(txt_buffer, sizeof(txt_buffer), "%dnm", wl);
   } else {
     txt_buffer[0] = 0;
   }
@@ -111,14 +113,14 @@ void dislay_mode_label(char *label)
 
     tft.setTextColor(LABEL_COLOR);
     tft.print(txt_buffer);
-    memcpy(last_value, txt_buffer, 16);
+    strcpy(last_value, txt_buffer);
   }
 }
 
 void show_large_data(char *data, color_t color) {
   static char last_value[16] = {0, };
   if (data) {
-    strncpy(txt_buffer, data, 16);
+    strcpy(txt_buffer, data);
   } else {
     txt_buffer[0] = 0;
   }
@@ -146,7 +148,8 @@ void display_transmittance() {
       dtostrf(f, 2, 0, txt_buffer);
     }
 
-    snprintf(txt_buffer, sizeof(txt_buffer), "%s%%", txt_buffer);
+    strcpy(txt_buffer + strlen(txt_buffer), "%");
+    //snprintf(txt_buffer, sizeof(txt_buffer), "%s%%", txt_buffer);
     show_large_data(txt_buffer, T_COLOR);
           
   } else {
@@ -177,8 +180,6 @@ void display_fluorescence() {
     if (strlen(txt_buffer) > 4) {
       dtostrf(f, 2, 0, txt_buffer);
     }
-
-    snprintf(txt_buffer, sizeof(txt_buffer), "%s", txt_buffer);
           
   } else {
     strcpy(txt_buffer, "N/A");
@@ -272,26 +273,19 @@ void display_name(void) {
 void display_start(void) {
   
  // reset like Adafruit does
- 
-  FastPin<ST7735_RST_PIN>::setOutput();
-  FastPin<ST7735_RST_PIN>::hi();
-  FastPin<ST7735_RST_PIN>::lo();
+  pinMode(ST7735_RST_PIN, OUTPUT);
+  digitalWrite(ST7735_RST_PIN, HIGH);
+  digitalWrite(ST7735_RST_PIN, LOW);
   delay(1);
-  FastPin<ST7735_RST_PIN>::hi();
-
-  Serial.println("display_start");
+  digitalWrite(ST7735_RST_PIN, HIGH);
   
-  //tft.initR(INITR_144GREENTAB);
-  //SPI.setClockDivider(SPI_CLOCK_DIV2);
-
-  
-  Serial.println("display_start 2");
-
   tft.begin();
   display_name();
   
   pinMode(TFT_BACKLIGHT, OUTPUT);
   digitalWrite(TFT_BACKLIGHT, LOW);
+
+  delay(1000);
 }
 
 

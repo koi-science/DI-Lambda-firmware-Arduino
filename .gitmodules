@@ -3,7 +3,7 @@
 	url = https://github.com/uChip/MCP342X.git
 [submodule "libraries/Arduino-Scheduler"]
 	path = libraries/Arduino-Scheduler
-	url = https://github.com/mikaelpatel/Arduino-Scheduler.git
+	url = git@github.com:koi-science/Arduino-Scheduler.git
 [submodule "libraries/PDQ_GFX_Libs"]
 	path = libraries/PDQ_GFX_Libs
-	url = https://github.com/XarkLabs/PDQ_GFX_Libs.git
+	url = git@github.com:koi-science/PDQ_GFX_Libs.git

@@ -20,10 +20,18 @@
 
 #include <Scheduler.h>
 
+
+#if defined (ARDUINO_ARCH_AVR)
 #define BTN_SAMPLE A0
 #define BTN_BLANK A1
 #define BTN_MODE A2
+#else
 
+#define BTN_SAMPLE PB0
+#define BTN_BLANK PB1
+#define BTN_MODE PB2
+
+#endif
 
 /*
 #define BTN_SAMPLE PB4
@@ -52,13 +60,13 @@ void new_sample(int32_t sample)
 
 void adc_callback(void)
 {
+  yield();
   adc_sample(&new_sample);
 }
 
 void button_callback(void)
 {
-  //Serial.println("B");
-
+  
   if (!digitalRead(BTN_BLANK)) {
     Serial.println("BLANK");
     blank = last_sample;
@@ -93,6 +101,7 @@ void button_callback(void)
       yield();
     }
   }
+  
   yield();
 }
 

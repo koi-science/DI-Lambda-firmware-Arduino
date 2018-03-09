@@ -1,4 +1,4 @@
-
+ 
 
 #include <MCP342X.h>
 
@@ -35,10 +35,12 @@ void adc_start(void) {
 }
 
 void adc_sample(void callback(int32_t)) {
-  int32_t signal = 0;
+  static int32_t signal = 0;
   int32_t bg = 0;
   uint32_t tmp;
 
+
+  signal++;
   /* Get the reading from the sensor with the LED on. Then get the reading with LED off.
      This helps with rejecting backround light. */
   led(1);
@@ -51,7 +53,7 @@ void adc_sample(void callback(int32_t)) {
   while(myADC.checkforResult(&bg) & MCP342X_RDY)
     yield();
 
-
+/*
   Serial.print("J: { \"bg\" : [ ");
   Serial.print(bg);
   Serial.print(", 0, 0");
@@ -61,7 +63,7 @@ void adc_sample(void callback(int32_t)) {
   Serial.print(signal);
   Serial.print(", 0, 0");
   Serial.print("] }\r\n");
-
+*/
   callback(signal - bg);
 
   yield();

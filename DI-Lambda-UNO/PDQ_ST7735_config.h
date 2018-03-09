@@ -13,11 +13,18 @@ enum
 
 #define ST7735_CHIPSET    ST7735_INITR_144GREENTAB
 
+#if defined (ARDUINO_ARCH_AVR)
 
 #define ST7735_CS_PIN    A5          // <= /CS pin (chip-select, LOW to get attention of ST7735, HIGH and it ignores SPI bus)
 #define ST7735_DC_PIN    A3          // <= DC pin (1=data or 0=command indicator line) also called RS
 #define ST7735_RST_PIN   A4          // <= RESET pin (active low)
 
+#else
+
+#define ST7735_CS_PIN    PA4          // <= /CS pin (chip-select, LOW to get attention of ST7735, HIGH and it ignores SPI bus)
+#define ST7735_DC_PIN    PA0          // <= DC pin (1=data or 0=command indicator line) also called RS
+#define ST7735_RST_PIN   PA1          // <= RESET pin (active low)
+#endif
 
 #define ST7735_SAVE_SPCR    0
 
